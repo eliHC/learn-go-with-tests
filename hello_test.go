@@ -3,11 +3,28 @@ package main
 import "testing"
 
 func TestHello(t *testing.T) {
-	whatIGot := Hello("Leon")
-	whaIWant := "Hello, Leon"
+	t.Run("saying hello to people", func(t *testing.T) {
+		whatIGot := Hello("Leon")
+		whaIWant := "Hello, Leon"
 
-	if whatIGot != whaIWant {
-		t.Errorf("got %q want %q", whatIGot, whaIWant)
+		assertCorrectMessage(t, whatIGot, whaIWant)
+	})
+
+	t.Run("say 'Hello, Friend' when an empty string is supplied", func(t *testing.T) {
+		whatIGot := Hello("")
+		whaIWant := "Hello, Friend"
+
+		assertCorrectMessage(t, whatIGot, whaIWant)
+	})
+
+}
+
+func assertCorrectMessage(t testing.TB, got, want string) {
+	t.Helper() // needed to tell the test suite that this method is a helper.
+	//	By doing this when it fails the line number reported will be in our
+	//	function call rather than inside our test helper
+
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
 	}
-
 }
